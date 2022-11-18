@@ -4,8 +4,8 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Button,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 
 const INITIAL_STATE = [
@@ -61,21 +61,21 @@ function App() {
               style={styles.placeholder}
             />
           </View>
-          <Button
-            disabled={yeniBaslik ? false : true}
-            color={yeniBaslik && 'orange'}
-            title="Kaydet"
+          <TouchableOpacity
             onPress={e => {
               e.preventDefault();
-              setListe([
-                ...liste,
-                {id: Date.now(), baslik: yeniBaslik, tamamlandi: false},
-              ]);
+
+              yeniBaslik &&
+                setListe([
+                  ...liste,
+                  {id: Date.now(), baslik: yeniBaslik, tamamlandi: false},
+                ]);
               setYeniBaslik('');
               setYapilacak(yapilacak + 1);
             }}
-            style={styles.active_button}
-          />
+            style={yeniBaslik ? styles.active_button : styles.disable_button}>
+            <Text style={styles.button_text}> Kaydet</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -116,11 +116,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   disable_button: {
-    overflow: 'hidden',
-    borderRadius: 15,
+    backgroundColor: '#9e9e9e',
+    borderRadius: 10,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   active_button: {
     backgroundColor: 'orange',
+    borderRadius: 10,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button_text: {
+    color: 'white',
+    fontSize: 20,
   },
   todo_input: {
     borderBottomColor: '#f0f8ff',
